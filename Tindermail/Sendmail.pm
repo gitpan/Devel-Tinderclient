@@ -34,7 +34,7 @@
 # This script developed August 2001 for Abisource and perl.
 
 
-package Tindermail;
+package Tindermail::Sendmail;
 use Exporter;
 @ISA =  qw(Exporter);
 @EXPORT = qw (sendstartmail sendendmail);
@@ -53,8 +53,8 @@ sub sendstartmail { # to send the start email.
         print SENDMAIL 'tinderbox: builddate: '.$time."\n";
         print SENDMAIL "tinderbox: status: building\n";
         print SENDMAIL "tinderbox: build: $Tinderconfig::boxname\n";
-        print SENDMAIL "tinderbox: errorparser: unix\n"; # XXX, change to win for windows!
-        print SENDMAIL "tinderbox: buildfamily: unix\n"; # XXX, same here
+        print SENDMAIL "tinderbox: errorparser: unix\n"; 
+        print SENDMAIL "tinderbox: buildfamily: unix\n";
         print SENDMAIL "tinderbox: START\n";
 
         close(SENDMAIL); # my work here is done.
@@ -78,11 +78,11 @@ sub sendendmail($$) {
         } elsif ($state eq "testfailed") {
                 print SENDMAIL "tinderbox: status: testfailed\n";
         } else {
-                print SENDMAIL "tinderbox: status: success\n"; # something nuts happend
+                print SENDMAIL "tinderbox: status: busted\n"; # something nuts happend
         }
         print SENDMAIL "tinderbox: build: $Tinderconfig::boxname\n";
-        print SENDMAIL "tinderbox: errorparser: unix\n"; # XXX, change to win for windows!
-        print SENDMAIL "tinderbox: buildfamily: unix\n"; # XXX, same here
+        print SENDMAIL "tinderbox: errorparser: unix\n"; 
+        print SENDMAIL "tinderbox: buildfamily: unix\n"; 
         print SENDMAIL "tinderbox: END\n\n";
         print SENDMAIL $log; # output our build log
 

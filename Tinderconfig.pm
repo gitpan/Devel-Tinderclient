@@ -14,7 +14,7 @@
 #
 # The Initial Developer of the Original Code is
 # Zach Lipton.
-# Portions created by the Initial Developer are Copyright (C) 2001
+# Portions created by the Initial Developer are Copyright (C) 2002
 # the Initial Developer. All Rights Reserved.
 #
 # Contributor(s): Zach Lipton <zach@zachlipton.com>
@@ -49,6 +49,24 @@ $boxname = "";
 #===========================================================
 
 #===========================================================
+#MAILSYSTEM
+# Tinderbox currently supports several sustems for mail to the 
+# tinderbox server. Please select which you wish to use.
+# Vaild options are: Tindermail::Sendmail (the default old mail system),
+# Tindermail::MailMailer (requires the Mail::Mailer module and Net::SMTP)
+# or Tindermail::Http (recomended, requires LWP and a tinderbox server 
+# that supports Http input, currently only tinderbox.perl.org)
+$mailsystem = "Tindermail::Http";
+#===========================================================
+
+#===========================================================
+#MAILSERVER
+# If you have selected Tindermail::MailMailer above, please select 
+# the smtp server that you plan to use (such as mail.mycompany.com).
+$mailserver = "";
+#===========================================================
+
+#===========================================================
 #SERVERADDRESS
 # set this to the email address that the results should be sent 
 # to.
@@ -57,32 +75,48 @@ $serveraddress = 'tinder@onion.perl.org';
 
 #===========================================================
 #TINDERBOXPAGE
-# set this to the page on the tinderbox (Perl, Perl6, 
+# set this to the page on the tinderbox (SeaMonkey, MozillaTest, 
 # etc) that you wish to display this tinderboxen.
-$tinderboxpage = "perl"; 
+$tinderboxpage = "parrot"; 
 #===========================================================
 
 #===========================================================
 #ADMIN
 # set this to the email address of the person who should
 # get trouble reports
-$admin = "";
+$admin = '';
+#===========================================================
+
+#===========================================================
+#CVSROOT
+# set this to the cvsroot you wish to use
+# note that you must have cvs logged in once with the unix account 
+# that you will be using to power the tinderbox to get a 
+# ~/.cvsroot file created.
+$cvsroot = ':pserver:anonymous@cvs.perl.org:/home/perlcvs'; 
+#===========================================================
+
+#===========================================================
+#CVSMODULE
+# set this to the module that you would like the tinderbox 
+# client script to pull. If you use a script to pull, then 
+# set this to the script so that it can be downloaded from 
+# the server and set $prebuild so it will be run to do the 
+# complete pull. The script should handle everything related to 
+# pulling.
+$cvsmodule = "parrot";
 #===========================================================
 
 #===========================================================
 #PULLDIR
-# This var should be set to a directory where the rsync pull 
-# will occur. Any and all contents will be overwritten.
-$pulldir = '';
-
-#===========================================================
-#RSYNCCOMMAND
-# This var should be set to the full rsync command used 
-# to pull or update the source tree. Note that this assumes 
-# that the files will appear in the same directory that this 
-# command is run inside. Include the word 'rsync' at the 
-# begining of this command.
-$rsynccommand = "";
+# Set this var to the directory that the source will be once 
+# the pull is complete. For example, if you are checking out 
+# a module with the full path of mozilla/webtools/bugzilla, 
+# you would enter that here. It is important that you enter 
+# a correct value here, or the script will fail.
+# Please ensure that you insert the value in the "" quotes 
+# and not in the single quotes.
+$pulldir = './'."parrot"; 
 #===========================================================
 
 #===========================================================
@@ -92,7 +126,7 @@ $rsynccommand = "";
 # if you have a script which you checkout of cvs, and then run 
 # to do the full pull, you would enter that here and the full 
 # cvs path to the script in $CVSMODULE above. Note that this 
-# script runs _in_ the pull directory.
+# script runs _in_ the cvs tree directory.
 $prebuild = "";
 #===========================================================
 
@@ -101,8 +135,7 @@ $prebuild = "";
 #BUILDCOMMANDS
 # This array should be set to the commands needed to build. 
 # The commands will be run in sequence starting with [0].
-@buildcommands = ('./configure -de -Dusedevel','make'); 
-# XXX, set configure options here!
+@buildcommands = ('perl Configure.pl --defaults','make clean','make');
 #===========================================================
 
 #===========================================================
@@ -111,7 +144,7 @@ $prebuild = "";
 # indicate an error building the source. Be carful with this, 
 # as if the pattern matches any output with the build it will 
 # show up as a failure on the tinderbox page.
-@failurestates = ('\[checkout aborted\]','\: cannot find module','^C ','gmake: \*\*\*');
+@failurestates = ('\[checkout aborted\]','\: cannot find module','^C ','Stop in');
 #===========================================================
 
 #===========================================================
@@ -123,13 +156,12 @@ $prebuild = "";
 # none of the regexps match.  If the second regexp is blank,
 # the failure of this test will not be able to result in a
 # burning tree on tinderbox.  Having anything in the build
-# error regexp at all is mostly useful for Perl programs 
-# that are tested like Bugzilla
+# error regexp at all is mostly useful for Perl programs,
 # where the same compile test determines both build errors
-# and test failures (perl -c)
+# and test failures.
 %tests = (
 # 'COMMAND' => ['PASS','FAILURE'],
-'make test' => ['100.00% ok',''],
+'make test' => ['All tests successful',''],
 );
 #===========================================================
 
@@ -156,6 +188,6 @@ $prebuild = "";
 $mincycletime = 300;
 #===========================================================
 
-$rsync = 1; # this is the rsync conf file
+$cvs = 1; # we are using cvs and not rsync here
 
 1;
