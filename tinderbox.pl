@@ -59,7 +59,7 @@ sub Log(\$$) { # pass a ref to a string, and a string, string gets concatonated 
 if ($Tinderconfig::cvs) { $ENV{CVSROOT} = $Tinderconfig::cvsroot; } # set the CVSROOT env var.
 Log($log,"Starting tinderbox session...\n\n");
 Log($log,"machine administrator is $Tinderconfig::admin\n");
-Log($log,"tinderbox version is 1.0 modelevel: perl developed for perl.org\n");
+Log($log,"tinderbox version is 1.2 modelevel: perl developed for perl.org\n");
 
 Log($log,"perl cvs mode enabled\n") if $Tinderconfig::cvs eq '1';
 Log($log,"perl rsync mode enabled\n") if $Tinderconfig::rsync eq '1';
@@ -96,11 +96,11 @@ my $dir = `pwd` || failure($!);
 chomp($dir);
 
 if ($Tinderconfig::cvs) {
-        chdir("$Tinderconfig::pulldir") || failure($!); # move into place
+	chdir("$Tinderconfig::pulldir") || failure($!); # move into place
 }
 
 if ($Tinderconfig::prebuild) {
-        Log($log,"about to run prebuild task $Tinderconfig::prebuild:\n");
+	Log($log,"about to run prebuild task $Tinderconfig::prebuild:\n");
         Log($log,`$Tinderconfig::prebuild 2>&1`);  # do any prebuild tasks we have
         Log($log,"Prebuild tasks complete\n\n");
 }
@@ -118,7 +118,7 @@ foreach my $command (@Tinderconfig::buildcommands) { # do the build
 }
 
 foreach my $test (keys(%Tinderconfig::tests)) {
-        Log($log,"About to run test: $test:\n");
+	Log($log,"About to run test: $test:\n");
         my $successregexp = ${$Tinderconfig::tests{$test}}[0];
         my $builderrorregexp = ${$Tinderconfig::tests{$test}}[1];
         open TEST,"$test 2>&1 |";
@@ -136,13 +136,13 @@ foreach my $test (keys(%Tinderconfig::tests)) {
                 Log($log,"$test found FATAL compile errors\n\n");
                 failure("Fatal compile errors found");
         } elsif ($tmp =~ m/$successregexp/i) { # success!
-                Log($log,"$test complete\n");
-                Log($log,"$test passed\n\n");
+		Log($log,"$test complete\n");
+		Log($log,"$test passed\n\n");
         } else { # it failed
-                $testfailed = 1;
-                Log($log,"$test complete\n");
-                Log($log,"$test FAILED!\n\n");
-        }
+		$testfailed = 1;
+		Log($log,"$test complete\n");
+		Log($log,"$test FAILED!\n\n");
+	}
 }
 
 if (@Tinderconfig::postbuild) {
@@ -190,7 +190,7 @@ sub restart {
                 sleep($sleeptime);
         }
         exec("$0");
-        exit();
+	exit();
 }
 exec("$0");
 exit();

@@ -66,7 +66,7 @@ $tinderboxpage = "perl6";
 #ADMIN
 # set this to the email address of the person who should
 # get trouble reports
-$admin = "";
+$admin = '';
 #===========================================================
 
 #===========================================================
@@ -75,7 +75,7 @@ $admin = "";
 # note that you must have cvs logged in once with the account 
 # that you will be using to power the tinderbox to get a 
 # ~/.cvsroot file created.
-$cvsroot = ':pserver:anonymous@cvs.perl.org:/home/perlcvs'; 
+$cvsroot = ":pserver:anonymous\@cvs.perl.org:/home/perlcvs"; 
 #===========================================================
 
 #===========================================================
