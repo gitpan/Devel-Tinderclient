@@ -42,7 +42,6 @@ use strict;
 
 use subs qw( checkerrors restart sendstartmail );
 
-if ($Tinderconfig::admin == "") { die "you must assign admin in Tinderconfig.pm"; }
 
 sendstartmail(); #send the mail that says we are underway
 my $starttime = time();
@@ -85,10 +84,10 @@ if ($Tinderconfig::rsync) { #handle the rsync pull
     unless ($Tinderconfig::pulldir) {
         failure('$pulldir unset!\n'); # yell! ASSERT! BAD BAD BAD!
     }
-    unlink($pulldir); # get rid of it
-    system("mkdir $pulldir");
-    chdir("$pulldir"); # move into place
-    system("$rsynccommand"); # do the actual pull
+    unlink($Tinderconfig::pulldir); # get rid of it
+    system("mkdir $Tinderconfig::pulldir");
+    chdir("$Tinderconfig::pulldir"); # move into place
+    system("$Tinderconfig::rsynccommand"); # do the actual pull
 }
 
 checkerrors($log); # see if we had any issues pulling
@@ -97,11 +96,11 @@ my $dir = `pwd` || failure($!);
 chomp($dir);
 
 if ($Tinderconfig::cvs) {
-	chdir("$Tinderconfig::pulldir") || failure($!); # move into place
+        chdir("$Tinderconfig::pulldir") || failure($!); # move into place
 }
 
 if ($Tinderconfig::prebuild) {
-	Log($log,"about to run prebuild task $Tinderconfig::prebuild:\n");
+        Log($log,"about to run prebuild task $Tinderconfig::prebuild:\n");
         Log($log,`$Tinderconfig::prebuild 2>&1`);  # do any prebuild tasks we have
         Log($log,"Prebuild tasks complete\n\n");
 }
@@ -119,7 +118,7 @@ foreach my $command (@Tinderconfig::buildcommands) { # do the build
 }
 
 foreach my $test (keys(%Tinderconfig::tests)) {
-	Log($log,"About to run test: $test:\n");
+        Log($log,"About to run test: $test:\n");
         my $successregexp = ${$Tinderconfig::tests{$test}}[0];
         my $builderrorregexp = ${$Tinderconfig::tests{$test}}[1];
         open TEST,"$test 2>&1 |";
@@ -137,13 +136,13 @@ foreach my $test (keys(%Tinderconfig::tests)) {
                 Log($log,"$test found FATAL compile errors\n\n");
                 failure("Fatal compile errors found");
         } elsif ($tmp =~ m/$successregexp/i) { # success!
-		Log($log,"$test complete\n");
-		Log($log,"$test passed\n\n");
+                Log($log,"$test complete\n");
+                Log($log,"$test passed\n\n");
         } else { # it failed
-		$testfailed = 1;
-		Log($log,"$test complete\n");
-		Log($log,"$test FAILED!\n\n");
-	}
+                $testfailed = 1;
+                Log($log,"$test complete\n");
+                Log($log,"$test FAILED!\n\n");
+        }
 }
 
 if (@Tinderconfig::postbuild) {
@@ -191,7 +190,7 @@ sub restart {
                 sleep($sleeptime);
         }
         exec("$0");
-	exit();
+        exit();
 }
 exec("$0");
 exit();

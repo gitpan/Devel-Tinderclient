@@ -66,7 +66,7 @@ $tinderboxpage = "perl";
 #ADMIN
 # set this to the email address of the person who should
 # get trouble reports
-$admin = "";
+$admin = '';
 #===========================================================
 
 #===========================================================
