@@ -1,27 +1,32 @@
-Tinderbox client Version 1.1p (perl version 0.02)
-
-By Zach Lipton <zach@zachlipton.com>
-
-
-This client is designed for the testing of perl.
-Edit the Tinderconfig.pm file to reflect your setup before using.
-
-Just run tinderbox.pl like this to keep it running all the time:
-
-nohup ./tinderbox.pl
-
-Simply look up the process id using ps and use kill if you wish to stop
-the Tinderbox. It will automatically pick up any config file changes so
-there is no need to restart if you change your configuration.
-
-Note that these scripts are covered under the MPL/GPL/LGPL tri-license
-as indicated in each file.
-
-Happy hacking!
-
-Zach
-
-CHANGES:
-
-	New in version 1.2:
+Tinderbox client Version 1.1p (perl version 0.02)
+
+By Zach Lipton <zach@zachlipton.com>
+
+
+This client is designed for the testing of perl.
+Edit the Tinderconfig.pm file to reflect your setup before using.
+
+Just run tinderbox.pl like this to keep it running all the time:
+
+nohup ./tinderbox.pl
+
+Simply look up the process id using ps and use kill if you wish to stop
+the Tinderbox. It will automatically pick up any config file changes so
+there is no need to restart if you change your configuration.
+
+Note that these scripts are covered under the MPL/GPL/LGPL tri-license
+as indicated in each file.
+
+Happy hacking!
+
+Zach
+
+CHANGES:
+
+	New in version 1.2:
 		Support for new mail modules, Mail::Mailer and Http
+
+Win32 EDITION NOTES:
+	-All files have been converted to Windows CR/LF line endings.
+	-Tinderconfig.pm has been modified to use 'nmake' by default.
+	    You can change this by replacing 'nmake' with something else.
