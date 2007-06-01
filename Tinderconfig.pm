@@ -56,7 +56,7 @@ $boxname = "";
 # Tindermail::MailMailer (requires the Mail::Mailer module and Net::SMTP)
 # or Tindermail::Http (recomended, requires LWP and a tinderbox server 
 # that supports Http input, currently only tinderbox.perl.org)
-$mailsystem = "Tindermail::Http";
+$mailsystem = "Tindermail::MailMailer";
 #===========================================================
 
 #===========================================================

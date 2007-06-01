@@ -38,6 +38,9 @@
 
 use Tinderconfig;
 eval "use $Tinderconfig::mailsystem";
+if ($@) {
+	die "Error loading mail backend: $@";
+}
 use strict;
 
 use subs qw( checkerrors restart sendstartmail );
@@ -59,7 +62,7 @@ sub Log(\$$) { # pass a ref to a string, and a string, string gets concatonated 
 if ($Tinderconfig::cvs) { $ENV{CVSROOT} = $Tinderconfig::cvsroot; } # set the CVSROOT env var.
 Log($log,"Starting tinderbox session...\n\n");
 Log($log,"machine administrator is $Tinderconfig::admin\n");
-Log($log,"tinderbox version is 1.2 modelevel: perl developed for perl.org\n");
+Log($log,"tinderbox version is 1.4 modelevel: Devel::Tinderclient\n");
 
 Log($log,"perl cvs mode enabled\n") if $Tinderconfig::cvs eq '1';
 Log($log,"perl rsync mode enabled\n") if $Tinderconfig::rsync eq '1';

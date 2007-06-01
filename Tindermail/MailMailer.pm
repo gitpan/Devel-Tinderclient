@@ -50,7 +50,7 @@ sub sendstartmail {
 	$time = time();
 	my $mailer = new Mail::Mailer 'smtp', Server => $Tinderconfig::mailserver;
 	$mailer->open(\%headers);
-	my $body = ""
+	my $body = "";
 	$body .= "tinderbox: tree: $Tinderconfig::tinderboxpage\n";
 	$body .= "tinderbox: builddate: $time\n";
 	$body .= "tinderbox: status: building\n";
